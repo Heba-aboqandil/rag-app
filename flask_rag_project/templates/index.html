@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ed Sheeran AI — Ask Anything</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}"/>
+</head>
+<body>
+  <main class="container">
+    <header class="hero">
+      <div class="badge">✦ AI Knowledge Base</div>
+      <h1 class="title">
+        <span class="title-small">Ask anything about</span>
+        <span class="title-big">Ed Sheeran</span>
+      </h1>
+      <p class="subtitle">Powered by Amazon Bedrock · 10 curated documents</p>
+    </header>
+
+    <section class="card">
+      <div class="card-label">YOUR QUESTION</div>
+      <div class="input-wrap">
+        <textarea id="question" placeholder="e.g. What is his real name?" rows="3" maxlength="500"></textarea>
+        <span class="char-count" id="charCount">0 / 500</span>
+      </div>
+      <button class="ask-btn" id="askBtn" onclick="askQuestion()">
+        <span class="btn-text">Ask Now</span>
+        <span class="btn-icon">♪</span>
+      </button>
+    </section>
+
+    <section class="answer-section" id="answerSection" style="display:none;">
+      <div class="answer-label"><span class="dot"></span> ANSWER</div>
+      <div class="answer-box" id="answerBox"></div>
+    </section>
+
+    <div class="loading" id="loading" style="display:none;">
+      <div class="loading-bars"><span></span><span></span><span></span><span></span><span></span></div>
+      <p>Searching knowledge base…</p>
+    </div>
+    <div class="error-box" id="errorBox" style="display:none;"></div>
+  </main>
+
+  <script>
+    const questionEl = document.getElementById("question");
+    const charCountEl = document.getElementById("charCount");
+    const askBtn = document.getElementById("askBtn");
+
+    questionEl.addEventListener("input", () => {
+        const length = questionEl.value.length;
+        charCountEl.textContent = `${length} / 500`;
+    });
+
+    questionEl.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" && !e.shiftKey) {
+            e.preventDefault();
+            askQuestion();
+        }
+    });
+
+    async function askQuestion() {
+        const question = questionEl.value.trim();
+        if (!question) return;
+
+        const loading = document.getElementById("loading");
+        const answerSection = document.getElementById("answerSection");
+        const errorBox = document.getElementById("errorBox");
+        const answerBox = document.getElementById("answerBox");
+
+        askBtn.disabled = true;
+        askBtn.querySelector(".btn-text").textContent = "Searching…";
+
+        loading.style.display = "flex";
+        answerSection.style.display = "none";
+        errorBox.style.display = "none";
+
+        try {
+            const res = await fetch("/ask", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ question })
+            });
+            const data = await res.json();
+
+            loading.style.display = "none";
+
+            if (data.error) {
+                errorBox.textContent = data.error;
+                errorBox.style.display = "block";
+            } else {
+                answerBox.textContent = data.answer;
+                answerSection.style.display = "block";
+                answerSection.classList.add("fade-in");
+            }
+        } catch (err) {
+            loading.style.display = "none";
+            errorBox.textContent = "Network error. Please try again.";
+            errorBox.style.display = "block";
+        } finally {
+            askBtn.disabled = false;
+            askBtn.querySelector(".btn-text").textContent = "Ask Now";
+        }
+    }
+</script>
+</body>
+</html>
