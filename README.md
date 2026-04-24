@@ -100,9 +100,4 @@ docker run -p 8080:8080 -d --name ed-sheeran-app \
   -e AWS_DEFAULT_REGION=us-east-1 \
   hebaaq/ed-sheeran-app:0.0.1
 
-## Screenshots
-
-![App](https://raw.githubusercontent.com/Heba-aboqandil/rag-app/main/app.png)
-
-![QA](https://raw.githubusercontent.com/Heba-aboqandil/rag-app/main/qa.png)
 ```
