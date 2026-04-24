@@ -92,6 +92,14 @@ docker build -t ed-sheeran-app:0.0.1 .
 docker tag ed-sheeran-app:0.0.1 hebaaq/ed-sheeran-app:0.0.1
 docker push hebaaq/ed-sheeran-app:0.0.1
 
+## Screenshots
+
+### App Home Page
+![App](צילום מסך 2026-04-24 154925.png)
+
+### Question & Answer  
+![QA](צילום מסך 2026-04-23 183826.png)
+
 # Run on EC2
 docker run -p 8080:8080 -d --name ed-sheeran-app \
   -e AWS_ACCESS_KEY_ID=... \
