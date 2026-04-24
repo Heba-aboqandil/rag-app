@@ -102,7 +102,7 @@ docker run -p 8080:8080 -d --name ed-sheeran-app \
 
 ## Screenshots
 
-![App](./app.png)
+![App](https://raw.githubusercontent.com/Heba-aboqandil/rag-app/main/app.png)
 
-![QA](./qa.png)
+![QA](https://raw.githubusercontent.com/Heba-aboqandil/rag-app/main/qa.png)
 ```
