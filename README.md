@@ -102,8 +102,7 @@ docker run -p 8080:8080 -d --name ed-sheeran-app \
 
 ## Screenshots
 
-![App](app.png)
+![App](./app.png)
 
-![QA](qa.png)
-
+![QA](./qa.png)
 ```
